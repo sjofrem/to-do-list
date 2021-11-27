@@ -4,9 +4,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Open+Sans:wght@300;400;500;800&family=Orbitron&display=swap" rel="stylesheet"> 
     <title>To Do List</title>
 </head>
 <body>
-    <script src="main.js"></script>
+    <header>
+        <h1>// To Do List</h1>
+        <button class="headerBtn" id="btnNav">
+            <i class="material-icons">menu</i>
+        </button>
+    </header>
+    <main>
+        <nav class="sideBar">
+            <div class="defaultProjects">
+                <button class="sideBarBtn sideBarBtn--active"> 
+                    <span class="material-icons">inbox</span> 
+                    <span>Inbox</span> 
+                </button>
+                <button class="sideBarBtn"> 
+                    <span class="material-icons">today</span> 
+                    <span>Today</span> 
+                </button>
+                <button class="sideBarBtn">
+                    <span class="material-icons">date_range</span> 
+                    <span>Week</span> 
+                </button>
+            </div>
+            <h4>Projects</h4>
+            <div class="customProjects"></div>
+            <button class="sideBarBtn">
+                <span class="material-icons">add</span> 
+                <span>New Project</span> 
+            </button>
+        </nav>
+    </main>
 </body>
 </html>

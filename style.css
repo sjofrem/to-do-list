@@ -1,0 +1,111 @@
+:root{
+    --bg-dark: #2b2928;
+    --bg-light: #c7c6c35e;
+    --white: #f2f1ef;
+    --sidebar-btn: #c5c5c52a;
+    --sidebar-btn-active: #2c2c2c2a;
+    --divDisplay: block;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: var(--white);
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    vertical-align: middle;
+    font-family: 'Open Sans', sans-serif;
+
+}
+/* Header section */
+header{
+    display: flex;
+    justify-content:space-between;
+    background-color: var(--bg-dark);
+    padding: 15px 30px;
+}
+
+header h1{
+    color: var(--white);
+    font-size: 2.2rem;
+}
+
+.headerBtn{
+    background-color: var(--bg-dark);
+    border: none;
+    width: 50px;
+    flex-shrink: 0;
+    color: var(--white);
+    cursor: pointer;
+    display: none;
+}
+
+.headerBtn i{
+    font-size: 38px;
+}
+
+/* sidebar section */
+.sideBar{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 35vh;
+    padding: 30px 15px;
+    background-color: var(--bg-light);
+    display: var(--divDisplay);
+}
+.defaultProjects{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding-bottom: 20px;
+}
+.sideBarBtn{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
+    border: none;
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 8px;
+    color: rgb(87, 87, 87);
+    background-color: var(--sidebar-btn);
+    transition: 0.2s;
+}
+.sideBarBtn--active{
+    color: rgb(37, 37, 37);
+    background-color: var(--sidebar-btn-active);
+}
+.sideBarBtn:hover{
+    color: rgb(37, 37, 37);
+    background-color: var(--sidebar-btn-active);
+}
+.sideBar h4{
+    font-size: 1.5rem;
+    color: rgb(65, 65, 65);
+    padding-bottom: 20px;
+    vertical-align: middle;
+}
+
+button span img{
+    height: 20px;
+}
+
+@media (max-width: 810px){
+    .headerBtn{
+        display: block;
+    }
+    .sideBar{
+        --divDisplay: none;
+        height: auto;
+        width: auto;
+        display: var(--divDisplay);
+    }
+    
+}
