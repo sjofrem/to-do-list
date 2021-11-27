@@ -11,9 +11,9 @@ export class Task{
         return this.title;
     }
 
-    set title(newTitle){
-        if(newTitle){
-            this.title = newTitle;
+    set title(value){
+        if(value){
+            this.title = value;
         }
     }
 
@@ -21,9 +21,9 @@ export class Task{
         return this.description;
     }
 
-    set description(newDescription){
-        if(newDescription){
-            this.description = newDescription;
+    set description(value){
+        if(value){
+            this.description = value;
         }
     }
 
@@ -31,9 +31,9 @@ export class Task{
         return this.dueDate;
     }
 
-    set dueDate(newDueDate){
-        if(newDueDate){
-            this.dueDate = newDueDate;
+    set dueDate(value){
+        if(value){
+            this.dueDate = value;
         }
     }
 
@@ -41,9 +41,9 @@ export class Task{
         return this.priority;
     }
 
-    set priority(newPriority){
-        if(newPriority){
-            this.priority = newPriority;
+    set priority(value){
+        if(value){
+            this.priority = value;
         }
     }
     
