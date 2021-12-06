@@ -9,39 +9,87 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Open+Sans:wght@300;400;500;800&family=Orbitron&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Open+Sans:wght@300;500;800&family=Orbitron&display=swap" rel="stylesheet"> 
     <title>To Do List</title>
 </head>
 <body>
     <header>
         <h1>// To Do List</h1>
         <button class="headerBtn" id="btnNav">
-            <i class="material-icons">menu</i>
+            <span class="material-icons">menu</span>
         </button>
     </header>
     <main>
         <nav class="sideBar">
-            <div class="defaultProjects">
-                <button class="sideBarBtn sideBarBtn--active"> 
-                    <span class="material-icons">inbox</span> 
-                    <span>Inbox</span> 
-                </button>
-                <button class="sideBarBtn"> 
+            <div class="defaultProjectsBtns">
+                <button id="todayBtn" class="sideBarBtn  sideBarBtn--active"> 
                     <span class="material-icons">today</span> 
                     <span>Today</span> 
                 </button>
-                <button class="sideBarBtn">
+                <button id="weekBtn" class="sideBarBtn">
                     <span class="material-icons">date_range</span> 
                     <span>Week</span> 
                 </button>
+                <button id="allTasksBtn" class="sideBarBtn"> 
+                    <span class="material-icons">inbox</span> 
+                    <span>All Tasks</span> 
+                </button>
             </div>
             <h4>Projects</h4>
-            <div class="customProjects"></div>
-            <button class="sideBarBtn">
+            <div class="customProjectsBtns">
+                <button class="sideBarBtn customProjectBtn">
+                    <div>
+                        <span class="material-icons">assignment</span> 
+                        <span>To do list</span> 
+                    </div>
+                    <div>
+                        <span class="material-icons deleteProjectBtn">close</span> 
+                    </div>
+                </button>
+            </div>
+            <button id="createProject" class="sideBarBtn">
                 <span class="material-icons">add</span> 
                 <span>New Project</span> 
             </button>
         </nav>
+        <nav class="projectContent">
+            <h3>Today</h3>
+            <div class="toDoList">
+
+                <div class="taskItem">
+                    <button class="checkBox"></button>
+                    <div class="taskContainer">
+                        <div class="taskInfo">
+                            <h4>Work hard</h4>
+                            <div class="taskItem--details">
+                                <div class="priority"></div> 
+                                <div class="dueDate"> | 2021/11/30</div>
+                            </div>
+                        </div>
+                        <div class="taskOptions">
+                            <button class="taskOptionBtn">
+                                <span class="material-icons">edit</span>
+                            </button>
+                            <button class="taskOptionBtn">
+                                <span class="material-icons">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
     </main>
+    <div id="createProjectModal" class="modal">
+        <form id="addProjectForm">
+            <span id="closeProjectModal" class="material-icons">close</span>
+            <h2 id="titleModal">Create Project</h2>
+            <input id="projectTitle" name="title" type="text" placeholder="Title" required>
+            
+            <button id="submitBtn" type="submit" >Create</button>
+        </form>
+    </div>
+    <div id="overlay"></div>
 </body>
 </html>
