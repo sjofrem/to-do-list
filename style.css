@@ -2,9 +2,14 @@
     --bg-dark: #2b2928;
     --bg-light: #c7c6c35e;
     --white: #f2f1ef;
-    --sidebar-btn: #c5c5c52a;
-    --sidebar-btn-active: #2c2c2c2a;
-    --divDisplay: block;
+    --white-hover: #d6d5d5cc;
+    --btn-bg: #c5c5c52a;
+    --btn-font: rgb(68, 68, 68);
+    --btn-bg-active: #2c2c2c2a;
+    --btn-font-active: rgb(37, 37, 37);
+    --subtitle-dark: rgb(46, 46, 46);
+    --checkbox-border:rgba(22, 22, 22, 0.473);
+    --important: rgb(204, 56, 56);
 }
 
 * {
@@ -27,6 +32,7 @@ header{
     justify-content:space-between;
     background-color: var(--bg-dark);
     padding: 15px 30px;
+    height: 10vh;
 }
 
 header h1{
@@ -47,65 +53,242 @@ header h1{
 .headerBtn i{
     font-size: 38px;
 }
+/* Main section */
+main{
+    display: flex;
+}
 
 /* sidebar section */
 .sideBar{
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 90vh;
     width: 35vh;
     padding: 30px 15px;
     background-color: var(--bg-light);
-    display: var(--divDisplay);
+    
 }
-.defaultProjects{
+.defaultProjectsBtns,
+.customProjectsBtns{
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 8px;
-    padding-bottom: 20px;
+    padding-bottom: 8px;
 }
 .sideBarBtn{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     width: 100%;
     gap: 12px;
     border: none;
     font-size: 1rem;
     padding: 8px;
     border-radius: 8px;
-    color: rgb(87, 87, 87);
-    background-color: var(--sidebar-btn);
+    color: var(--btn-font);
+    background-color: var(--btn-bg);
     transition: 0.2s;
 }
+.customProjectBtn{
+    justify-content: space-between !important;
+}
+.customProjectBtn div{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.deleteProjectBtn{
+    cursor: pointer;
+}
 .sideBarBtn--active{
-    color: rgb(37, 37, 37);
-    background-color: var(--sidebar-btn-active);
+    color: var(--btn-font-active);
+    background-color: var(--btn-bg-active);
 }
 .sideBarBtn:hover{
-    color: rgb(37, 37, 37);
-    background-color: var(--sidebar-btn-active);
+    color: var(--btn-font-active);
+    background-color: var(--btn-bg-active);
 }
 .sideBar h4{
     font-size: 1.5rem;
-    color: rgb(65, 65, 65);
+    color: var(--subtitle-dark);
+    padding-bottom: 20px;
+    vertical-align: middle;
+    padding-left: 5%;
+}
+/* Project section */
+.projectContent{
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 100%;
+    padding: 20px 40px;
+}
+.projectContent h3{
+    font-size: 2.5rem;
+    color: var(--subtitle-dark);
     padding-bottom: 20px;
     vertical-align: middle;
 }
-
-button span img{
+/* tasks section */
+.taskItem{
+    display: flex;
+    align-items: center;
+    background-color: var(--btn-bg);
+    padding: 10px 15px;
+    border-radius: 8px;
+    gap: 20px;
+}
+.taskContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.checkBox{
+    width: 20px;
     height: 20px;
+    border-radius: 100%;
+    border: 1px solid var(--checkbox-border);
+    background-color: var(--white);
+    transition: .15s;
+}
+.checkBox:hover{
+    background-color: var(--white-hover);
+}
+.taskInfo h4{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.taskItem--details{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.priority{
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: var(--important);
+}
+.dueDate {
+    font-size: .8rem;
+    font-weight: 400;
+    color: var(--btn-font);
+}
+.taskOptionBtn{
+    border: none;
+    padding: 7px;
+    border-radius: 5px;
+    transition: .25;
+}
+.taskOptionBtn:hover{
+    background-color: var(--white-hover);
 }
 
+/*Modal section*/
+
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    color: #413f3d;
+    z-index: 10;
+}
+
+#overlay.active {
+    display: block;
+}
+
+
+
+.modal {
+    position: fixed;
+    z-index: 11;
+    top: 50%; 
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+    width: 400px;
+    background-color: #f2f1ef;
+    border-radius: 5px;
+    display: none;
+    padding: 2rem;
+}
+
+#addProjectForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+#addProjectForm .material-icons{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#titleModalAdd {
+    font-family: 'Montserrat', sans-serif;
+    padding-bottom: 1rem;
+}
+
+input {
+    padding: 8px;
+    width: 80%;
+    font-size: 18px;
+}
+
+input:focus {
+    outline: none;
+}
+
+label{
+    font-size: 24px;
+}
+
+#submitBtn {
+    border: none;
+    padding: 12px 60px;
+    color: #f2f1ef;
+    background-color: #2b2928;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+#submitBtn:hover{
+    background-color: #3f3c3b;
+}
+
+#submitBtn:active{
+    background-color: #524d4c;
+}
+
+.modal.active {
+    display: block;
+}
+
+
+/* Media queries*/
 @media (max-width: 810px){
+    main{
+        flex-direction: column;
+    }
     .headerBtn{
         display: block;
     }
     .sideBar{
-        --divDisplay: none;
         height: auto;
         width: auto;
-        display: var(--divDisplay);
+        display: none;
+    }
+    .sideBar.active{
+        display: block;
     }
     
 }
