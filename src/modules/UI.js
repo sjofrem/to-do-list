@@ -1,11 +1,13 @@
 import { Project } from "./project";
+import { toDoList } from "./toDoList";
+import { Storage } from "./storage";
 
 export class UI{
     
     static loadPage(){
         this.initMobileMenuBtn();
         this.initProjectBtns();
-        this.initCustomProjectBtns();
+        this.renderCustomProjectBtns();
         
     }
 
@@ -24,6 +26,7 @@ export class UI{
         });
 
     }
+
     static initProjectBtns(){
         const allTasks = document.getElementById('allTasksBtn');
         const today = document.getElementById('todayBtn');
@@ -65,18 +68,16 @@ export class UI{
         });
         addProjectForm.addEventListener('submit', (e) =>{
             e.preventDefault();
-            const customProjectsBtns = document.querySelector('.customProjectsBtns');
             let title = document.getElementById('projectTitle').value;
 
             this.hideCreateProjectModal();
 
-            addProjectForm.reset();
             const newProject = new Project(title);
+            Storage.addProject(newProject);
 
-            const newProjectButton = this.createCustomProjectBtn(title);
-            customProjectsBtns.appendChild(newProjectButton);
+            addProjectForm.reset();
 
-            this.initCustomProjectBtns();
+            this.renderCustomProjectBtns();
         });
     }
 
@@ -111,12 +112,27 @@ export class UI{
         close.innerText = 'close';
         divClose.appendChild(close);
 
+        close.addEventListener('click', () => {
+            Storage.deleteProject(title);
+            this.renderCustomProjectBtns();
+        });
+
         newProjectButton.appendChild(divContent);
         newProjectButton.appendChild(divClose);
         return newProjectButton;
     }
 
-    static initCustomProjectBtns(){
+    static renderCustomProjectBtns(){
+        const customProjectsBtns = document.querySelector('.customProjectsBtns');
+        const projects = Storage.getToDoList().getProjects();
+        customProjectsBtns.innerHTML = "";
+
+        for(const index in projects){
+            const projectName = projects[index].name;
+            this.createCustomProjectBtn(projectName);
+            const newProjectButton = this.createCustomProjectBtn(projectName);
+            customProjectsBtns.appendChild(newProjectButton);
+        }
         const customsProjects = document.querySelectorAll('.customProjectBtn');
         customsProjects.forEach((projectBtn) => {
             projectBtn.addEventListener('click', () => {

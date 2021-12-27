@@ -1,26 +1,26 @@
 export class Project {
     constructor(name) {
-      this._name = name;
-      this._projectTasks = [];
+      this.name = name;
+      this.projectTasks = [];
     }
 
-    get name() {
-      return this._name;
+    getName() {
+      return this.name;
     }
   
-    set name(value) {
+    setName(value) {
       if (value) {
-        this._name = value;
+        this.name = value;
       }
     }
   
-    get projectTasks() {
-      return this._projectTasks;
+    getProjectTasks() {
+      return this.projectTasks;
     }
   
-    set projectTasks(value) {
+    setProjectTasks(value) {
       if (value) {
-        this._projectTasks.push(value);
+        this.projectTasks.push(value);
       }
     }
   }

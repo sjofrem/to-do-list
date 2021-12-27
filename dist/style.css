@@ -30,6 +30,7 @@ body{
 header{
     display: flex;
     justify-content:space-between;
+    align-items: center;
     background-color: var(--bg-dark);
     padding: 15px 30px;
     height: 10vh;
@@ -63,7 +64,7 @@ main{
     display: flex;
     flex-direction: column;
     height: 90vh;
-    width: 35vh;
+    width: 40vh;
     padding: 30px 15px;
     background-color: var(--bg-light);
     
@@ -79,6 +80,7 @@ main{
 .sideBarBtn{
     display: flex;
     justify-content: left;
+    align-items: center;
     width: 100%;
     gap: 12px;
     border: none;

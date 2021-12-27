@@ -7,41 +7,41 @@ export class Task{
         this.priority = priority;
     }
 
-    get title(){
+    getTitle(){
         return this.title;
     }
 
-    set title(value){
+    setTitle(value){
         if(value){
             this.title = value;
         }
     }
 
-    get description(){
+    getDescription(){
         return this.description;
     }
 
-    set description(value){
+    setDescription(value){
         if(value){
             this.description = value;
         }
     }
 
-    get dueDate(){
+    getDueDate(){
         return this.dueDate;
     }
 
-    set dueDate(value){
+    setDueDate(value){
         if(value){
             this.dueDate = value;
         }
     }
 
-    get priority(){
+    getPriority(){
         return this.priority;
     }
 
-    set priority(value){
+    setPriority(value){
         if(value){
             this.priority = value;
         }
