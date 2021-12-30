@@ -1,8 +1,10 @@
 import { toDoList } from "./toDoList";
+import { Project } from "./project";
+import { Task } from "./task";
 export class Storage{
 
     static saveToDoList(data) {
-        localStorage.setItem('toDoList', JSON.stringify(data))
+        localStorage.setItem('toDoList', JSON.stringify(data));
     }
 
     static getToDoList(){
@@ -12,6 +14,19 @@ export class Storage{
                 new toDoList(),
                 JSON.parse(localStorage.getItem('toDoList'))
             );
+            list.setProjects(
+                list
+                  .getProjects()
+                  .map((project) => Object.assign(new Project(), project))
+                );
+          
+            list.getProjects()
+                .forEach((project) =>
+                  project.setTasks(
+                    project.getTasks().map((task) => Object.assign(new Task(), task))
+                  )
+                );
+          
             return list;
         }
         const list = new toDoList();
@@ -27,8 +42,20 @@ export class Storage{
     }
 
     static deleteProject(projectName) {
-        const todoList = Storage.getToDoList()
-        todoList.deleteProject(projectName)
-        Storage.saveToDoList(todoList)
-      }
+        const toDoList = Storage.getToDoList();
+        toDoList.deleteProject(projectName);
+        Storage.saveToDoList(toDoList);
+    }
+
+    static addTask(projectName, newTask){
+        const toDoList = Storage.getToDoList();
+        toDoList.getProject(projectName).addTask(newTask);
+        Storage.saveToDoList(toDoList);
+    }
+
+    static deleteTask(projectName, taskName) {
+        const toDoList = Storage.getToDoList();
+        toDoList.getProject(projectName).deleteTask(taskName);
+        Storage.saveToDoList(toDoList);
+    }
 }

@@ -15,11 +15,11 @@ export class toDoList{
     }
     
     getProject(projectName) {
-        return this.projects.find((project) => project.getName() === projectName);
+        return this.projects.find((project) => project.name === projectName);
     }
     
     contains(projectName) {
-        return this.projects.some((project) => project.getName() === projectName);
+        return this.projects.some((project) => project.name === projectName);
     }
     
     addProject(newProject) {

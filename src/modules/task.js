@@ -1,8 +1,7 @@
 
 export class Task{
-    constructor(title, description, dueDate, priority){
+    constructor(title, dueDate, priority){
         this.title = title;
-        this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
     }
@@ -14,16 +13,6 @@ export class Task{
     setTitle(value){
         if(value){
             this.title = value;
-        }
-    }
-
-    getDescription(){
-        return this.description;
-    }
-
-    setDescription(value){
-        if(value){
-            this.description = value;
         }
     }
 
