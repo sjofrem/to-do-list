@@ -94,7 +94,7 @@
     <div id="createProjectModal" class="modal">
         <form id="addProjectForm">
             <span id="closeProjectModal" class="material-icons">close</span>
-            <h2 id="titleModal">New Project</h2>
+            <h2 class="titleModal">New Project</h2>
             <input class="inputBox" id="projectTitle" name="title" type="text" placeholder="Title" required>
             <button class="submitBtn" type="submit" >Create</button>
         </form>
@@ -102,13 +102,13 @@
     <div id="newTaskModal" class="modal">
         <form id="newTaskForm">
             <span id="closeNewTaskModal" class="material-icons">close</span>
-            <h2 id="titleModal">New Task</h2>
+            <h2 class="titleModal">New Task</h2>
             <input class="inputBox" id="taskTitle" name="title" type="text" placeholder="Title" required>
-            <input class="inputBox" id="dueDate" name="dueDate" type="text" placeholder="Due Date"
+            <input class="inputBox" id="dueDate" name="dueDate" type="text" placeholder="Due Date" required
             onfocus="(this.type='date')"
             onblur="(this.type='text')">
 
-            <div id="prioritySection">
+            <div class="prioritySection">
                 <h4>Priority:</h4>
                 
                 <input type="radio" value="1" id="p1" name="priority" checked>
@@ -122,6 +122,31 @@
             </div>
             
             <button class="submitBtn" type="submit" >Create</button>
+        </form>
+    </div>
+    <div id="editTaskModal" class="modal">
+        <form id="editTaskForm">
+            <span id="closeEditTaskModal" class="material-icons">close</span>
+            <h2 class="titleModal">Edit Task</h2>
+            <input class="inputBox" id="newTaskTitle" name="title" type="text" placeholder="Title" required>
+            <input class="inputBox" id="newDueDate" name="dueDate" type="text" placeholder="Due Date" required
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')">
+
+            <div class="prioritySection">
+                <h4>Priority:</h4>
+                
+                <input type="radio" value="1" id="np1" name="newPriority" checked>
+                <label for="np1" id="priority1"></label>
+
+                <input type="radio" value="2" id="np2" name="newPriority">
+                <label for="np2" id="priority2" ></label>
+
+                <input type="radio" value="3" id="np3" name="newPriority">
+                <label for="np3" id="priority3"></label>
+            </div>
+            
+            <button class="submitBtn" type="submit" >Update</button>
         </form>
     </div>
     <div id="overlay"></div>
