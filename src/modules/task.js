@@ -4,6 +4,7 @@ export class Task{
         this.title = title;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.status = false;
     }
 
     getTitle(){
@@ -34,6 +35,14 @@ export class Task{
         if(value){
             this.priority = value;
         }
+    }
+
+    getStatus(){
+        return this.status;
+    }
+
+    changeStatus(){
+        this.status = !this.status;
     }
     
 }

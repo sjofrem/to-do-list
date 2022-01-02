@@ -36,6 +36,7 @@ export class UI{
         const createProject = document.getElementById('createProject');
         const closeProjectModal = document.getElementById('closeProjectModal');
         const closeNewTaskModal = document.getElementById('closeNewTaskModal');
+        const closeEditTaskModal = document.getElementById('closeEditTaskModal');
         const addProjectForm = document.getElementById('addProjectForm');
         const newTaskForm = document.getElementById('newTaskForm');
         
@@ -72,6 +73,9 @@ export class UI{
         });
         closeNewTaskModal.addEventListener('click', () =>{
             this.hideNewTaskModal();
+        })
+        closeEditTaskModal.addEventListener('click', () =>{
+            this.hideEditTaskModal();
         })
         addProjectForm.addEventListener('submit', (e) =>{
             e.preventDefault();
@@ -130,6 +134,14 @@ export class UI{
 
         overlay.classList.remove('active');
         newTaskModal.classList.remove('active');
+    }
+
+    static hideEditTaskModal(){
+        const editTaskModal = document.getElementById('editTaskModal');
+        const overlay = document.getElementById('overlay');
+
+        overlay.classList.remove('active');
+        editTaskModal.classList.remove('active');
     }
 
     static createCustomProjectBtn(title){
@@ -216,6 +228,14 @@ export class UI{
 
             const checkbox = document.createElement('button');
             checkbox.classList.add('checkBox');
+            if(task.status){
+                const check = document.createElement('span');
+                check.classList.add('material-icons');
+                check.classList.add('check');
+                check.innerText = 'done';
+                checkbox.appendChild(check);
+                taskItem.style.opacity = "0.6";
+            }
             taskItem.appendChild(checkbox);
 
             const taskContainer = document.createElement('div');
@@ -267,12 +287,70 @@ export class UI{
             taskItem.appendChild(taskContainer);
             toDoListSection.appendChild(taskItem);
 
+            checkbox.addEventListener('click', () => {
+                Storage.changeStatus(projectName, task.title);
+                const check = document.querySelector('.check');
+                if(check){
+                    checkbox.removeChild(check);
+                    taskItem.style.opacity = "1";
+                }
+                else{
+                    const check = document.createElement('span');
+                    check.classList.add('material-icons');
+                    check.classList.add('check');
+                    check.innerText = 'done';
+                    checkbox.appendChild(check);
+                    taskItem.style.opacity = "0.6";
+                }
+            });
+            
+            editBtn.addEventListener('click', () => {
+                const editTaskModal = document.getElementById('editTaskModal');
+                const overlay = document.getElementById('overlay');
+                const editTaskForm = document.getElementById('editTaskForm');
+
+                const newTaskTitle = document.getElementById('newTaskTitle');
+                const newDueDate = document.getElementById('newDueDate');
+                const newPriority = document.getElementById(`np${task.priority}`);
+
+                newTaskTitle.value = task.title;
+                newDueDate.value = task.dueDate;
+                newPriority.checked = true;
+
+                overlay.classList.add('active');
+                editTaskModal.classList.add('active');
+
+
+                editTaskForm.addEventListener('submit', this.updateTask.bind(this));
+                editTaskForm.task = task;
+                editTaskForm.projectName = projectName;
+                
+            });
+
             deleteBtn.addEventListener('click', () => {
                 Storage.deleteTask(projectName, task.title);
                 this.renderTasks(projectName);
             });
 
         }
+    }
+
+    static updateTask(event){
+        event.preventDefault();
+        const editTaskForm = document.getElementById('editTaskForm');
+        const priority = document.querySelector('input[name="newPriority"]:checked').value;
+        const newTaskTitle = document.getElementById('newTaskTitle');
+        const newDueDate = document.getElementById('newDueDate');
+
+        Storage.changeTaskPriority(event.currentTarget.projectName, event.currentTarget.task.title, priority);
+        Storage.changeTaskDueDate(event.currentTarget.projectName, event.currentTarget.task.title, newDueDate.value);
+        Storage.changeTaskTitle(event.currentTarget.projectName, event.currentTarget.task.title, newTaskTitle.value);
+
+        this.hideEditTaskModal();
+
+        editTaskForm.removeEventListener('submit', this.updateTask);
+        this.renderTasks(event.currentTarget.projectName);
+
     }
 
     static renderCustomProjectBtns(){

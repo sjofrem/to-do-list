@@ -53,9 +53,33 @@ export class Storage{
         Storage.saveToDoList(toDoList);
     }
 
-    static deleteTask(projectName, taskName) {
+    static deleteTask(projectName, taskTitle) {
         const toDoList = Storage.getToDoList();
-        toDoList.getProject(projectName).deleteTask(taskName);
+        toDoList.getProject(projectName).deleteTask(taskTitle);
+        Storage.saveToDoList(toDoList);
+    }
+
+    static changeTaskTitle(projectName, taskTitle, newTaskTitle){
+        const toDoList = Storage.getToDoList();
+        toDoList.getProject(projectName).getTask(taskTitle).setTitle(newTaskTitle);
+        Storage.saveToDoList(toDoList);
+    }
+
+    static changeTaskDueDate(projectName, taskTitle, newDueDate){
+        const toDoList = Storage.getToDoList();
+        toDoList.getProject(projectName).getTask(taskTitle).setDueDate(newDueDate);
+        Storage.saveToDoList(toDoList);
+    }
+
+    static changeTaskPriority(projectName, taskTitle, newPriority){
+        const toDoList = Storage.getToDoList();
+        toDoList.getProject(projectName).getTask(taskTitle).setPriority(newPriority);
+        Storage.saveToDoList(toDoList);
+    }
+
+    static changeStatus(projectName, taskTitle){
+        const toDoList = Storage.getToDoList();
+        toDoList.getProject(projectName).getTask(taskTitle).changeStatus();
         Storage.saveToDoList(toDoList);
     }
 }

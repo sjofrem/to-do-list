@@ -22,12 +22,12 @@ export class Project {
       this.tasks = tasks;
     }
 
-    getTask(taskName) {
-      return this.tasks.find((task) => task.getTitle() === taskName)
+    getTask(taskTitle) {
+      return this.tasks.find((task) => task.getTitle() === taskTitle)
     }
   
-    contains(taskName) {
-      return this.tasks.some((task) => task.getTitle() === taskName)
+    contains(taskTitle) {
+      return this.tasks.some((task) => task.getTitle() === taskTitle)
     }
   
     addTask(newTask) {
@@ -35,7 +35,7 @@ export class Project {
       this.tasks.push(newTask)
     }
   
-    deleteTask(taskName) {
-      this.tasks = this.tasks.filter((task) => task.getTitle() !== taskName)
+    deleteTask(taskTitle) {
+      this.tasks = this.tasks.filter((task) => task.getTitle() !== taskTitle)
     }
   }
