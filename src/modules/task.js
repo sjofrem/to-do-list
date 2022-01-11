@@ -1,19 +1,20 @@
 
 export class Task{
-    constructor(title, dueDate, priority){
+    constructor(title, dueDate, priority, projectTitle){
         this.title = title;
         this.dueDate = dueDate;
         this.priority = priority;
         this.status = false;
+        this.projectTitle = projectTitle;
     }
 
     getTitle(){
         return this.title;
     }
 
-    setTitle(value){
-        if(value){
-            this.title = value;
+    setTitle(title){
+        if(title){
+            this.title = title;
         }
     }
 
@@ -21,9 +22,9 @@ export class Task{
         return this.dueDate;
     }
 
-    setDueDate(value){
-        if(value){
-            this.dueDate = value;
+    setDueDate(dueDate){
+        if(dueDate){
+            this.dueDate = dueDate;
         }
     }
 
@@ -31,9 +32,9 @@ export class Task{
         return this.priority;
     }
 
-    setPriority(value){
-        if(value){
-            this.priority = value;
+    setPriority(priorirty){
+        if(priorirty){
+            this.priority = priorirty;
         }
     }
 
@@ -43,6 +44,23 @@ export class Task{
 
     changeStatus(){
         this.status = !this.status;
+    }
+
+    getProjectTitle(){
+        return this.projectTitle;
+    }
+
+    setProjectTitle(projectTitle){
+        if(projectTitle){
+            this.projectTitle = projectTitle;
+        }
+    }
+
+    getDateFormatted() {
+        const day = this.dueDate.split('-')[2];
+        const month = this.dueDate.split('-')[1];
+        const year = this.dueDate.split('-')[0];
+        return `${year}/${month}/${day}`;
     }
     
 }

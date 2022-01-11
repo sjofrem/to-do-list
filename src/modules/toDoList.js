@@ -31,6 +31,6 @@ export class toDoList{
           (project) => project.name === projectName
         )
         this.projects.splice(this.projects.indexOf(projectToDelete), 1)
-      }
+    }
 
 }

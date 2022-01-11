@@ -45,6 +45,25 @@ export class UI{
             if(!isActive){
                 this.deactivateProjectBtns();
                 allTasks.classList.add('sideBarBtn--active');
+
+                const projectContent = document.querySelector('.projectContent');
+                projectContent.innerHTML = '';
+        
+                const contentNavbar = document.createElement('div');
+                contentNavbar.classList.add('contentNavbar');
+        
+                const projectTitle = document.createElement('h3');
+                projectTitle.classList.add('currentProjectTitle');
+                projectTitle.innerText = 'All Tasks';
+                contentNavbar.appendChild(projectTitle);
+                projectContent.appendChild(contentNavbar);
+        
+                const toDoListContainer = document.createElement('div');
+                toDoListContainer.classList.add('toDoList');
+                projectContent.appendChild(toDoListContainer);
+                this.renderAllTasks();
+
+                
             }
         });
         today.addEventListener('click', () =>{
@@ -52,6 +71,24 @@ export class UI{
             if(!isActive){
                 this.deactivateProjectBtns();
                 today.classList.add('sideBarBtn--active');
+
+                const projectContent = document.querySelector('.projectContent');
+                projectContent.innerHTML = '';
+        
+                const contentNavbar = document.createElement('div');
+                contentNavbar.classList.add('contentNavbar');
+        
+                const projectTitle = document.createElement('h3');
+                projectTitle.classList.add('currentProjectTitle');
+                projectTitle.innerText = 'Today';
+                contentNavbar.appendChild(projectTitle);
+                projectContent.appendChild(contentNavbar);
+        
+                const toDoListContainer = document.createElement('div');
+                toDoListContainer.classList.add('toDoList');
+                projectContent.appendChild(toDoListContainer);
+
+                this.renderTodayTasks();
             }
         });
         week.addEventListener('click', () =>{
@@ -59,6 +96,24 @@ export class UI{
             if(!isActive){
                 this.deactivateProjectBtns();
                 week.classList.add('sideBarBtn--active');
+
+                const projectContent = document.querySelector('.projectContent');
+                projectContent.innerHTML = '';
+        
+                const contentNavbar = document.createElement('div');
+                contentNavbar.classList.add('contentNavbar');
+        
+                const projectTitle = document.createElement('h3');
+                projectTitle.classList.add('currentProjectTitle');
+                projectTitle.innerText = 'Week';
+                contentNavbar.appendChild(projectTitle);
+                projectContent.appendChild(contentNavbar);
+        
+                const toDoListContainer = document.createElement('div');
+                toDoListContainer.classList.add('toDoList');
+                projectContent.appendChild(toDoListContainer);
+
+                this.renderWeekTasks();
             }
         });
         createProject.addEventListener('click', () =>{
@@ -100,13 +155,20 @@ export class UI{
 
             this.hideNewTaskModal();
 
-            const newTask = new Task(title, dueDate, priorirty);
+            const newTask = new Task(title, dueDate, priorirty, projectTitle);
             Storage.addTask(projectTitle,newTask);
-            this.renderTasks(projectTitle);
+            this.clearTasks();
+
+            const tasks = Storage.getToDoList().getProject(projectTitle).getTasks();
+            this.renderTasks(tasks, 'customTasks');
 
             newTaskForm.reset();
 
         });
+    }
+    static clearTasks(){
+        const toDoListSection = document.querySelector('.toDoList');
+        toDoListSection.innerHTML = '';
     }
 
     static initNewTaskBtn(){
@@ -213,15 +275,69 @@ export class UI{
         projectContent.appendChild(toDoListContainer);
 
         this.initNewTaskBtn();
-        this.renderTasks(title);
+        this.clearTasks();
+        const tasks = Storage.getToDoList().getProject(title).getTasks();
+        this.renderTasks(tasks, 'customTasks');
     }
 
-    static renderTasks(projectName){
+    static renderAllTasks(){
+        const projects = Storage.getToDoList().projects;
+        let allTasksList = [];
+        this.clearTasks();
+        for (const projectIndex in projects){
+            const tasks = projects[projectIndex].tasks;
+            for(const taskIndex in tasks){
+                const task = tasks[taskIndex];
+                allTasksList.push(task);
+            }
+        }
+        // Sort tasks by date
+        allTasksList.sort(function compare(a, b) {
+            var dateA = new Date(a.getDateFormatted());
+            var dateB = new Date(b.getDateFormatted());
+            return dateA - dateB;
+        });
+        this.renderTasks(allTasksList, 'allTasks');
+    }
+
+    static renderTodayTasks(){
+        const projects = Storage.getToDoList().projects;
+        let todayTasksList = [];
+        this.clearTasks();
+        for (const projectIndex in projects){
+            const tasks = projects[projectIndex].getTasksToday();
+            for(const taskIndex in tasks){
+                const task = tasks[taskIndex];
+                todayTasksList.push(task);
+            }
+        }
+        this.renderTasks(todayTasksList, 'todayTasks');
+    }
+
+    static renderWeekTasks(){
+        const projects = Storage.getToDoList().projects;
+        let weekTasksList = [];
+        this.clearTasks();
+        for (const projectIndex in projects){
+            const tasks = projects[projectIndex].getTasksWeek();
+            for(const taskIndex in tasks){
+                const task = tasks[taskIndex];
+                weekTasksList.push(task);
+            }
+        }
+        // Sort tasks by date
+        weekTasksList.sort(function compare(a, b) {
+            var dateA = new Date(a.getDateFormatted());
+            var dateB = new Date(b.getDateFormatted());
+            return dateA - dateB;
+        });
+        this.renderTasks(weekTasksList, 'weekTasks');
+    }
+
+    static renderTasks(tasks, type){
         const toDoListSection = document.querySelector('.toDoList');
-        toDoListSection.innerHTML = '';
-        const project = Storage.getToDoList().getProject(projectName).getTasks();
-        for(const index in project){
-            const task = project[index];
+        for(const index in tasks){
+            const task = tasks[index];
 
             const taskItem = document.createElement('div');
             taskItem.classList.add('taskItem');
@@ -288,8 +404,8 @@ export class UI{
             toDoListSection.appendChild(taskItem);
 
             checkbox.addEventListener('click', () => {
-                Storage.changeStatus(projectName, task.title);
-                const check = document.querySelector('.check');
+                Storage.changeStatus(task.projectTitle, task.title);
+                const check = checkbox.querySelector('.check');
                 if(check){
                     checkbox.removeChild(check);
                     taskItem.style.opacity = "1";
@@ -323,13 +439,27 @@ export class UI{
 
                 editTaskForm.addEventListener('submit', this.updateTask.bind(this));
                 editTaskForm.task = task;
-                editTaskForm.projectName = projectName;
+                editTaskForm.projectTitle = task.projectTitle;
+                editTaskForm.type = type;
                 
             });
 
             deleteBtn.addEventListener('click', () => {
-                Storage.deleteTask(projectName, task.title);
-                this.renderTasks(projectName);
+                Storage.deleteTask(task.projectTitle, task.title);
+                this.clearTasks()
+                if(type == 'allTasks'){
+                    this.renderAllTasks();
+                }
+                else if(type == 'todayTasks'){
+                    this.renderTodayTasks();
+                }
+                else if(type == 'weekTasks'){
+                    this.renderWeekTasks();
+                }
+                else{
+                    const tasks = Storage.getToDoList().getProject(task.projectName).getTasks();
+                    this.renderTasks(tasks, type);
+                }
             });
 
         }
@@ -342,14 +472,27 @@ export class UI{
         const newTaskTitle = document.getElementById('newTaskTitle');
         const newDueDate = document.getElementById('newDueDate');
 
-        Storage.changeTaskPriority(event.currentTarget.projectName, event.currentTarget.task.title, priority);
-        Storage.changeTaskDueDate(event.currentTarget.projectName, event.currentTarget.task.title, newDueDate.value);
-        Storage.changeTaskTitle(event.currentTarget.projectName, event.currentTarget.task.title, newTaskTitle.value);
+        Storage.changeTaskPriority(event.currentTarget.projectTitle, event.currentTarget.task.title, priority);
+        Storage.changeTaskDueDate(event.currentTarget.projectTitle, event.currentTarget.task.title, newDueDate.value);
+        Storage.changeTaskTitle(event.currentTarget.projectTitle, event.currentTarget.task.title, newTaskTitle.value);
 
         this.hideEditTaskModal();
 
         editTaskForm.removeEventListener('submit', this.updateTask);
-        this.renderTasks(event.currentTarget.projectName);
+        this.clearTasks();
+        if(event.currentTarget.type == 'allTasks'){
+            this.renderAllTasks();
+        }
+        else if(event.currentTarget.type == 'todayTasks'){
+            this.renderTodayTasks();
+        }
+        else if(event.currentTarget.type == 'weekTasks'){
+            this.renderWeekTasks();
+        }
+        else{
+            const tasks = Storage.getToDoList().getProject(event.currentTarget.projectTitle).getTasks();
+            this.renderTasks(tasks, event.currentTarget.type);
+        }
 
     }
 
@@ -401,6 +544,5 @@ export class UI{
             });
         }
     }
-    // Create content
 
 }
