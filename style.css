@@ -133,6 +133,8 @@ main{
     color: var(--subtitle-dark);
     padding-bottom: 20px;
     vertical-align: middle;
+    margin-right: 20px;
+    word-break: break-all;
 }
 .contentNavbar{
     display: flex;
@@ -181,6 +183,7 @@ main{
     border: 1px solid var(--checkbox-border);
     background-color: var(--white);
     transition: .15s;
+    flex-shrink: 0;
 }
 .checkBox:hover{
     background-color: var(--white-hover);
@@ -206,6 +209,9 @@ main{
     font-size: .8rem;
     font-weight: 400;
     color: var(--btn-font);
+}
+.taskOptions{
+    flex-shrink: 0;
 }
 .taskOptionBtn{
     border: none;
@@ -365,6 +371,9 @@ main{
     }
     .sideBar.active{
         display: block;
+    }
+    .projectContent h3{
+        font-size: 2rem;
     }
     
 }
