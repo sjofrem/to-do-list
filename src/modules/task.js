@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 
 export class Task{
     constructor(title, dueDate, priority, projectTitle){
@@ -61,6 +62,11 @@ export class Task{
         const month = this.dueDate.split('-')[1];
         const year = this.dueDate.split('-')[0];
         return `${year}/${month}/${day}`;
+    }
+
+    getDateUI(){
+        const date = new Date(this.getDateFormatted());
+        return format(date, 'PPP');
     }
     
 }

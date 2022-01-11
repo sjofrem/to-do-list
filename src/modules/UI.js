@@ -1,5 +1,4 @@
 import { Project } from "./project";
-import { toDoList } from "./toDoList";
 import { Storage } from "./storage";
 import { Task } from "./task";
 
@@ -9,7 +8,7 @@ export class UI{
         this.initMobileMenuBtn();
         this.initProjectBtns();
         this.renderCustomProjectBtns();
-        this.initNewTaskBtn();
+        this.renderTodayContent();
         
     }
 
@@ -231,8 +230,12 @@ export class UI{
         divClose.appendChild(close);
 
         close.addEventListener('click', () => {
+            const currentProject = document.querySelector('.currentProjectTitle').textContent;
             Storage.deleteProject(title);
             this.renderCustomProjectBtns();
+            if(currentProject == title){
+                this.renderTodayContent();
+            }
         });
 
         newProjectButton.appendChild(divContent);
@@ -299,7 +302,32 @@ export class UI{
         });
         this.renderTasks(allTasksList, 'allTasks');
     }
+    static renderTodayContent(){
+        const today = document.getElementById('todayBtn');
+        const isActive = today.classList.contains('sideBarBtn--active');
+        if(!isActive){
+            this.deactivateProjectBtns();
+            today.classList.add('sideBarBtn--active');
 
+            const projectContent = document.querySelector('.projectContent');
+            projectContent.innerHTML = '';
+    
+            const contentNavbar = document.createElement('div');
+            contentNavbar.classList.add('contentNavbar');
+    
+            const projectTitle = document.createElement('h3');
+            projectTitle.classList.add('currentProjectTitle');
+            projectTitle.innerText = 'Today';
+            contentNavbar.appendChild(projectTitle);
+            projectContent.appendChild(contentNavbar);
+    
+            const toDoListContainer = document.createElement('div');
+            toDoListContainer.classList.add('toDoList');
+            projectContent.appendChild(toDoListContainer);
+
+            this.renderTodayTasks();
+        }
+    }
     static renderTodayTasks(){
         const projects = Storage.getToDoList().projects;
         let todayTasksList = [];
@@ -374,7 +402,7 @@ export class UI{
 
             const dueDate = document.createElement('div');
             dueDate.classList.add('dueDate');
-            dueDate.innerText = ` | ${task.dueDate}`;
+            dueDate.innerText = ` | ${task.getDateUI()}`;
             taskDetails.appendChild(dueDate);
             taskInfo.appendChild(taskDetails);
             taskContainer.appendChild(taskInfo);
@@ -457,7 +485,7 @@ export class UI{
                     this.renderWeekTasks();
                 }
                 else{
-                    const tasks = Storage.getToDoList().getProject(task.projectName).getTasks();
+                    const tasks = Storage.getToDoList().getProject(task.projectTitle).getTasks();
                     this.renderTasks(tasks, type);
                 }
             });
